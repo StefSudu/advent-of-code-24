@@ -1,45 +1,66 @@
-import { read } from 'node:fs';
 import * as fs from 'node:fs/promises';
 
-async function readFile() {
-    const data =  await fs.readFile('day2/red-nosed-reports-prod.txt', 'utf-8');
-    
+async function readFile(): Promise<number[][]> {
+    const data = await fs.readFile('day2/red-nosed-reports-prod.txt', 'utf-8');
     const lines = data.split('\n');
     const result: number[][] = [];
 
     for (const line of lines) {
-        if (line.trim() === '') continue; 
+        if (line.trim() === '') {
+            continue; // Skip empty lines
+        }
         const nums = line.trim().split(' ').map(Number);
         result.push(nums);
     }
     return result;
 }
 
-(async() => {
+// Function to determine if a sequence is safe
+function isSequenceSafe(sequence: number[]): boolean {
+    let fast = 1;
+    let slow = 0;
+    const direction = sequence[fast] > sequence[slow];
+
+    while (fast < sequence.length) {
+        const fastVal = sequence[fast];
+        const slowVal = sequence[slow];
+        const diff = Math.abs(fastVal - slowVal);
+        const dir = fastVal > slowVal;
+
+        if (diff > 3 || diff === 0 || dir !== direction) {
+            return false; 
+        }
+        fast++;
+        slow++;
+    }
+    return true; 
+}
+
+(async () => {
     const arr = await readFile();
-    let currNotSafe = 0
-    for (let i=0;i< arr.length; i++) {
-        let fast = 1;
-        let slow = 0;
-        let direction = arr[i][fast]>arr[i][slow];
+    let safeReports = 0;
 
-        while (fast < arr[i].length) {
-            let fastVal = arr[i][fast];
-            let slowVal = arr[i][slow];
-            const diff = Math.abs(Number(fastVal)-Number(slowVal));
-            const dir = fastVal > slowVal;
-
-            if (((diff < 1) || (diff > 3) || (diff == 0)) || (dir != direction)) {
-                currNotSafe += 1
-                break;
-            } 
-
-            fast +=1;
-            slow+=1;
+    for (const sequence of arr) {
+        // Check if the sequence is safe without any modification
+        if (isSequenceSafe(sequence)) {
+            safeReports++;
+            continue;
         }
 
-    }
-    console.log(arr.length-currNotSafe);
-})();
+        // Check if removing any single level makes the sequence safe
+        let dampenedSafe = false;
+        for (let j = 0; j < sequence.length; j++) {
+            const modifiedSequence = [...sequence.slice(0, j), ...sequence.slice(j + 1)];
+            if (isSequenceSafe(modifiedSequence)) {
+                dampenedSafe = true;
+                break;
+            }
+        }
 
-readFile();
+        if (dampenedSafe) {
+            safeReports++;
+        }
+    }
+
+    console.log(safeReports);
+})();
