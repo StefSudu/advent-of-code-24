@@ -19,7 +19,7 @@ async function readFile() {
 (async () => {
     await readFile();
 
-    // SOLUTION 1: bucket sort algorithm
+    // START SOLUTION 1: bucket sort algorithm
 
     // // key: unique value, value: count of occurences 
     // var newList1: number[] = [];
@@ -37,9 +37,9 @@ async function readFile() {
 
     // // input into dictionaries
 
-    // SOLUTION 1
+    // END SOLUTION 1
 
-    // SOLUTION 2: O(n2) algorithm
+    // START SOLUTION 2: O(n2) algorithm
 
         // sort arrays
         list1.sort();
@@ -55,7 +55,7 @@ async function readFile() {
 
         console.log(distance);
 
-    // SOLUTION 2
+    // END SOLUTION 2
 
 })();
 
