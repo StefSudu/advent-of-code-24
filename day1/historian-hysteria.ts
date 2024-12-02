@@ -37,8 +37,9 @@ async function readFile() {
 
     // // input into dictionaries
 
+    // SOLUTION 1
 
-    // SOLUTION 2: easy
+    // SOLUTION 2: O(n2) algorithm
 
         // sort arrays
         list1.sort();
