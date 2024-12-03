@@ -7,7 +7,7 @@ async function readFile(): Promise<number[][]> {
 
     for (const line of lines) {
         if (line.trim() === '') {
-            continue; // Skip empty lines
+            continue;
         }
         const nums = line.trim().split(' ').map(Number);
         result.push(nums);
