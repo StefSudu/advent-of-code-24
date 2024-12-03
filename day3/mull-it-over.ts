@@ -16,7 +16,7 @@ function sum(number1: number, number2: number): number {
     // get array of all matches
     const arr = data.match(/mul\(\d{1,3},\d{1,3}\)/g) as never;
 
-    const regex = /mul\((\d+),(\d+)\)/g;
+    const regex = /mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don[']t\(\)/g;
     const matches = [];
     let match;
 
